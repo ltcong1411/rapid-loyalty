@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/ltcong1411/rapid-loyalty/pb";
+
+message CreateCustomerRequest {
+    string idempotent_key = 1;
+    string name = 2;
+    string dob = 3;
+    string gender = 4;
+    string email = 5;
+    string phone = 6;
+    string address = 7;
+}
+
+message CreateCustomerResponse {
+    string id = 1;
+    string name = 2;
+    string dob = 3;
+    string gender = 4;
+    string email = 5;
+    string phone = 6;
+    string address = 7;
+}
