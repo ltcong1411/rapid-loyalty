@@ -3,6 +3,8 @@ syntax = "proto3";
 package pb;
 
 import "rpc_create_customer.proto";
+import "rpc_get_customer_by_barcode.proto";
+import "rpc_get_membership_by_barcode.proto";
 import "google/api/annotations.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
@@ -23,12 +25,30 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 service RapidLoyalty {
     rpc CreateUser (CreateCustomerRequest) returns (CreateCustomerResponse) {
         option (google.api.http) = {
-            post: "/v1/create_customer"
+            post: "/v1/customers"
             body: "*"
         };
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to create a new customer.";
             summary: "Create a new customer.";
+        };
+    }
+    rpc GetCustomerByBarcode (GetCustomerByBarcodeRequest) returns (GetCustomerByBarcodeResponse) {
+        option (google.api.http) = {
+            get: "/v1/customers/{barcode}"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to get a customer by barcode.";
+            summary: "Get a customer by barcode.";
+        };
+    }
+    rpc GetMembershipByBarcode (GetMembershipByBarcodeRequest) returns (GetMembershipByBarcodeResponse) {
+        option (google.api.http) = {
+            get: "/v1/memberships/{barcode}"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to get a membership by barcode.";
+            summary: "Get a membership by barcode.";
         };
     }
 }

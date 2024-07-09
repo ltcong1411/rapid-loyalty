@@ -21,7 +21,7 @@
     "application/json"
   ],
   "paths": {
-    "/v1/create_customer": {
+    "/v1/customers": {
       "post": {
         "summary": "Create a new customer.",
         "description": "Use this API to create a new customer.",
@@ -48,6 +48,70 @@
             "schema": {
               "$ref": "#/definitions/pbCreateCustomerRequest"
             }
+          }
+        ],
+        "tags": [
+          "RapidLoyalty"
+        ]
+      }
+    },
+    "/v1/customers/{barcode}": {
+      "get": {
+        "summary": "Get a customer by barcode.",
+        "description": "Use this API to get a customer by barcode.",
+        "operationId": "RapidLoyalty_GetCustomerByBarcode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetCustomerByBarcodeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "barcode",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "RapidLoyalty"
+        ]
+      }
+    },
+    "/v1/memberships/{barcode}": {
+      "get": {
+        "summary": "Get a membership by barcode.",
+        "description": "Use this API to get a membership by barcode.",
+        "operationId": "RapidLoyalty_GetMembershipByBarcode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbGetMembershipByBarcodeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "barcode",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "tags": [
@@ -86,6 +150,14 @@
     "pbCreateCustomerResponse": {
       "type": "object",
       "properties": {
+        "customer": {
+          "$ref": "#/definitions/pbCustomer"
+        }
+      }
+    },
+    "pbCustomer": {
+      "type": "object",
+      "properties": {
         "id": {
           "type": "string"
         },
@@ -106,6 +178,39 @@
         },
         "address": {
           "type": "string"
+        },
+        "barcode": {
+          "type": "string"
+        }
+      }
+    },
+    "pbGetCustomerByBarcodeResponse": {
+      "type": "object",
+      "properties": {
+        "customer": {
+          "$ref": "#/definitions/pbCustomer"
+        }
+      }
+    },
+    "pbGetMembershipByBarcodeResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "customerId": {
+          "type": "string"
+        },
+        "currentTier": {
+          "type": "string"
+        },
+        "availablePoints": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPoints": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },

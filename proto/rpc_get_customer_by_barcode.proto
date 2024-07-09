@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package pb;
+
+import "customer.proto";
+
+option go_package = "github.com/ltcong1411/rapid-loyalty/pb";
+
+message GetCustomerByBarcodeRequest {
+    string barcode = 1;
+}
+
+message GetCustomerByBarcodeResponse {
+    Customer customer = 1;
+}

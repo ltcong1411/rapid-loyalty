@@ -19,7 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	RapidLoyalty_CreateUser_FullMethodName = "/pb.RapidLoyalty/CreateUser"
+	RapidLoyalty_CreateUser_FullMethodName             = "/pb.RapidLoyalty/CreateUser"
+	RapidLoyalty_GetCustomerByBarcode_FullMethodName   = "/pb.RapidLoyalty/GetCustomerByBarcode"
+	RapidLoyalty_GetMembershipByBarcode_FullMethodName = "/pb.RapidLoyalty/GetMembershipByBarcode"
 )
 
 // RapidLoyaltyClient is the client API for RapidLoyalty service.
@@ -27,6 +29,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RapidLoyaltyClient interface {
 	CreateUser(ctx context.Context, in *CreateCustomerRequest, opts ...grpc.CallOption) (*CreateCustomerResponse, error)
+	GetCustomerByBarcode(ctx context.Context, in *GetCustomerByBarcodeRequest, opts ...grpc.CallOption) (*GetCustomerByBarcodeResponse, error)
+	GetMembershipByBarcode(ctx context.Context, in *GetMembershipByBarcodeRequest, opts ...grpc.CallOption) (*GetMembershipByBarcodeResponse, error)
 }
 
 type rapidLoyaltyClient struct {
@@ -46,11 +50,31 @@ func (c *rapidLoyaltyClient) CreateUser(ctx context.Context, in *CreateCustomerR
 	return out, nil
 }
 
+func (c *rapidLoyaltyClient) GetCustomerByBarcode(ctx context.Context, in *GetCustomerByBarcodeRequest, opts ...grpc.CallOption) (*GetCustomerByBarcodeResponse, error) {
+	out := new(GetCustomerByBarcodeResponse)
+	err := c.cc.Invoke(ctx, RapidLoyalty_GetCustomerByBarcode_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rapidLoyaltyClient) GetMembershipByBarcode(ctx context.Context, in *GetMembershipByBarcodeRequest, opts ...grpc.CallOption) (*GetMembershipByBarcodeResponse, error) {
+	out := new(GetMembershipByBarcodeResponse)
+	err := c.cc.Invoke(ctx, RapidLoyalty_GetMembershipByBarcode_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RapidLoyaltyServer is the server API for RapidLoyalty service.
 // All implementations must embed UnimplementedRapidLoyaltyServer
 // for forward compatibility
 type RapidLoyaltyServer interface {
 	CreateUser(context.Context, *CreateCustomerRequest) (*CreateCustomerResponse, error)
+	GetCustomerByBarcode(context.Context, *GetCustomerByBarcodeRequest) (*GetCustomerByBarcodeResponse, error)
+	GetMembershipByBarcode(context.Context, *GetMembershipByBarcodeRequest) (*GetMembershipByBarcodeResponse, error)
 	mustEmbedUnimplementedRapidLoyaltyServer()
 }
 
@@ -60,6 +84,12 @@ type UnimplementedRapidLoyaltyServer struct {
 
 func (UnimplementedRapidLoyaltyServer) CreateUser(context.Context, *CreateCustomerRequest) (*CreateCustomerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (UnimplementedRapidLoyaltyServer) GetCustomerByBarcode(context.Context, *GetCustomerByBarcodeRequest) (*GetCustomerByBarcodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCustomerByBarcode not implemented")
+}
+func (UnimplementedRapidLoyaltyServer) GetMembershipByBarcode(context.Context, *GetMembershipByBarcodeRequest) (*GetMembershipByBarcodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMembershipByBarcode not implemented")
 }
 func (UnimplementedRapidLoyaltyServer) mustEmbedUnimplementedRapidLoyaltyServer() {}
 
@@ -92,6 +122,42 @@ func _RapidLoyalty_CreateUser_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RapidLoyalty_GetCustomerByBarcode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCustomerByBarcodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapidLoyaltyServer).GetCustomerByBarcode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RapidLoyalty_GetCustomerByBarcode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapidLoyaltyServer).GetCustomerByBarcode(ctx, req.(*GetCustomerByBarcodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RapidLoyalty_GetMembershipByBarcode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMembershipByBarcodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RapidLoyaltyServer).GetMembershipByBarcode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RapidLoyalty_GetMembershipByBarcode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RapidLoyaltyServer).GetMembershipByBarcode(ctx, req.(*GetMembershipByBarcodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RapidLoyalty_ServiceDesc is the grpc.ServiceDesc for RapidLoyalty service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -102,6 +168,14 @@ var RapidLoyalty_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateUser",
 			Handler:    _RapidLoyalty_CreateUser_Handler,
+		},
+		{
+			MethodName: "GetCustomerByBarcode",
+			Handler:    _RapidLoyalty_GetCustomerByBarcode_Handler,
+		},
+		{
+			MethodName: "GetMembershipByBarcode",
+			Handler:    _RapidLoyalty_GetMembershipByBarcode_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

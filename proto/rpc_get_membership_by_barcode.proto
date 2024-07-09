@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/ltcong1411/rapid-loyalty/pb";
+
+message GetMembershipByBarcodeRequest {
+    string barcode = 1;
+}
+
+message GetMembershipByBarcodeResponse {
+    string id = 1;
+    string customer_id = 2;
+    string current_tier = 3;
+    int32 available_points = 4;
+    int32 total_points = 5;
+}
